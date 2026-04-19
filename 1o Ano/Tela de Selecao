@@ -7,6 +7,7 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="icon" href="https://img.icons8.com/ios-filled/200/fcba03/number-1.png" type="image/png">
     
     <style>
         :root {
@@ -32,7 +33,7 @@
             overflow-x: hidden;
         }
 
-        /* --- DECORAÇÕES DE FUNDO (Símbolos Espalhados) --- */
+        /* --- DECORAÇÕES DE FUNDO --- */
         .bg-decorations {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -90,7 +91,7 @@
 
         .back-btn:hover { color: var(--azul); }
 
-        /* --- HEADER DA TURMA --- */
+        /* --- HEADER --- */
         .header-turma {
             padding: 60px 8% 40px;
             text-align: left;
@@ -113,7 +114,7 @@
             margin-bottom: 10px;
         }
 
-        /* --- GRID DE DISCIPLINAS --- */
+        /* --- GRID --- */
         .grid-subjects {
             padding: 0 8% 100px;
             display: grid;
@@ -129,7 +130,7 @@
             border: 1px solid #f0f0f0;
             display: flex;
             flex-direction: column;
-            align-items: flex-start; /* Alinhado à esquerda conforme solicitado */
+            align-items: flex-start;
         }
 
         .subject-card:hover {
@@ -138,43 +139,20 @@
         }
 
         .icon-circle {
-            width: 70px;
-            height: 70px;
+            width: 70px; height: 70px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            color: white;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 25px; color: white;
         }
 
-        .subject-card h2 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-        }
+        .subject-card h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 15px; }
+        .subject-card p { color: #777; margin-bottom: 30px; font-size: 1rem; }
 
-        .subject-card p {
-            color: #777;
-            margin-bottom: 30px;
-            font-size: 1rem;
-        }
-
-        /* Botões de Ação */
         .btn-action {
-            width: 100%;
-            padding: 18px;
-            border-radius: 25px;
-            border: none;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-decoration: none;
-            transition: 0.3s;
+            width: 100%; padding: 18px; border-radius: 25px; border: none;
+            font-family: 'Montserrat', sans-serif; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            gap: 10px; text-decoration: none; transition: 0.3s;
         }
 
         /* Estilos por Matéria */
@@ -187,11 +165,50 @@
         .ciencias .icon-circle { background-color: var(--verde); }
         .ciencias .btn-action { background-color: var(--verde); color: white; }
 
-        .btn-action:hover {
-            filter: brightness(1.1);
-            gap: 15px;
+        .btn-action:hover { filter: brightness(1.1); gap: 15px; }
+
+        /* --- MODAL --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.2); backdrop-filter: blur(12px);
+            display: none; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal-content {
+            background: white; width: 95%; max-width: 480px;
+            padding: 45px; border-radius: 50px; position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
+        @keyframes modalPop { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        .chapter-list { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
+        
+        .chapter-item {
+            background: #f8f9fa; padding: 15px 20px; border-radius: 25px;
+            text-decoration: none; color: var(--text-dark); font-weight: 700;
+            display: flex; align-items: center; gap: 15px;
+            border: 2px solid transparent; transition: 0.3s;
+        }
+
+        .cap-number {
+            width: 45px; height: 45px;
+            background-color: var(--theme-color);
+            color: white;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 15px; font-size: 1.2rem; font-weight: 800; flex-shrink: 0;
+        }
+
+        .cap-name { flex: 1; font-size: 1rem; }
+
+        .chapter-item:hover {
+            background: white; border-color: var(--theme-color);
+            color: var(--theme-color); transform: translateX(8px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .close-btn { position: absolute; top: 25px; right: 25px; cursor: pointer; color: #ccc; transition: 0.3s; }
+        .close-btn:hover { color: #eb4040; transform: rotate(90deg); }
     </style>
 </head>
 <body>
@@ -227,10 +244,10 @@
             </div>
             <h2>Matemática</h2>
             <p>Números, grandezas e formas geométricas divertidas.</p>
-            <a href="#" class="btn-action">
+            <button class="btn-action" onclick="openChapters('Matemática', 'var(--laranja)')">
                 Abrir Cards
                 <span class="material-symbols-rounded">auto_stories</span>
-            </a>
+            </button>
         </div>
 
         <div class="subject-card portugues">
@@ -239,10 +256,10 @@
             </div>
             <h2>Português</h2>
             <p>Alfabeto, sílabas e as primeiras classes gramaticais.</p>
-            <a href="#" class="btn-action">
+            <button class="btn-action" onclick="openChapters('Português', 'var(--rosa)')">
                 Abrir Cards
                 <span class="material-symbols-rounded">auto_stories</span>
-            </a>
+            </button>
         </div>
 
         <div class="subject-card ciencias">
@@ -251,13 +268,71 @@
             </div>
             <h2>Ciências</h2>
             <p>Descobrindo os sentidos, a higiene básica e o corpo humano.</p>
-            <a href="#" class="btn-action">
+            <button class="btn-action" onclick="openChapters('Ciências', 'var(--verde)')">
                 Abrir Cards
                 <span class="material-symbols-rounded">auto_stories</span>
-            </a>
+            </button>
         </div>
 
     </main>
 
+    <div class="modal-overlay" id="chapterModal" onclick="closeOutside(event)">
+        <div class="modal-content" id="modalBox">
+            <span class="material-symbols-rounded close-btn" onclick="closeModal()">close</span>
+            <h2 id="modalTitle" style="font-weight: 800; font-size: 1.8rem;">Capítulos</h2>
+            <p id="modalSub" style="color: #666; margin-top: 5px;">Selecione o tema para estudar:</p>
+            <div class="chapter-list" id="chapterList"></div>
+        </div>
+    </div>
+
+    <script>
+        // Mapeamento de Capítulos e seus Links Reais
+        const chaptersData = {
+            'Matemática': [
+                { nome: 'Os Números', link: 'matematica-numeros.html' },
+                { nome: 'Formas Geométricas', link: 'matematica-formas.html' },
+                { nome: 'Grandezas e Medidas', link: 'matematica-grandezas.html' }
+            ],
+            'Português': [
+                { nome: 'O Alfabeto', link: 'Portugues/Capitulo 1' },
+                { nome: 'As Sílabas', link: 'Portugues/Capitulo 2' },
+                { nome: 'Substantivos e Adjetivos', link: 'Portugues/Capitulo 3' }
+            ],
+            'Ciências': [
+                { nome: 'O Corpo Humano', link: 'ciencias-corpo.html' },
+                { nome: 'Os 5 Sentidos', link: 'ciencias-sentidos.html' },
+                { nome: 'Higiene e Saúde', link: 'ciencias-higiene.html' }
+            ]
+        };
+
+        function openChapters(subject, color) {
+            const modal = document.getElementById('chapterModal');
+            const title = document.getElementById('modalTitle');
+            const list = document.getElementById('chapterList');
+            const modalBox = document.getElementById('modalBox');
+
+            modalBox.style.setProperty('--theme-color', color);
+            title.innerText = subject;
+            title.style.color = color;
+
+            list.innerHTML = '';
+            
+            // Agora acessamos o .nome e o .link de cada objeto
+            chaptersData[subject].forEach((cap, index) => {
+                list.innerHTML += `
+                    <a href="${cap.link}" class="chapter-item">
+                        <div class="cap-number">${index + 1}</div>
+                        <div class="cap-name">${cap.nome}</div>
+                        <span class="material-symbols-rounded" style="opacity: 0.3">chevron_right</span>
+                    </a>
+                `;
+            });
+
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() { document.getElementById('chapterModal').style.display = 'none'; }
+        function closeOutside(e) { if(e.target.id === 'chapterModal') closeModal(); }
+    </script>
 </body>
 </html>
